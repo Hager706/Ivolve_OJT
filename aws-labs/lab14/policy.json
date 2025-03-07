@@ -1,0 +1,18 @@
+{
+    "Version": "2012-10-17",
+    "Id": "S3PolicyId1",
+    "Statement": [
+        {
+            "Sid": "statement1",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action":"s3:*",
+            "Resource": "arn:aws:s3:::s3-lab14/*",
+            "Condition" : {
+                "IpAddress" : {
+                    "aws:SourceIp": "156.210.30.10" 
+                }
+            } 
+        } 
+    ]
+} 
