@@ -1,5 +1,4 @@
 # **📌 AWS Infrastructure Deployment with Terraform**  
-### **🚀 Infrastructure as Code (IaC) using Terraform**  
 
 ## **📂 Project Overview**  
 This project automates the deployment of a **secure and scalable web infrastructure** on AWS using **Terraform**. The architecture consists of a **publicly accessible Nginx web server** and a **privately hosted Apache web server**, ensuring a **secure and efficient networking setup**.  
@@ -16,7 +15,7 @@ This project automates the deployment of a **secure and scalable web infrastruct
 ---
 
 ## **🌍 Architecture Diagram**  
-![Alt text](assets/pic1.png)
+![Alt text](assets/pic1.jpeg)
 
 ---
 
