@@ -66,12 +66,12 @@ The `Network` module creates all the necessary AWS networking components:
 - **Internet Gateway (IGW)** for internet access  
 - **Route Table** to allow traffic to flow through IGW  
 
-![Alt text](assets/pic2.jpeg)
+![Alt text](assets/pic2.png)
 
 #### 🔹 Using Loops (`for_each`) for Subnets  
 Instead of defining each subnet manually, I used a **loop (`for_each`)** to create them dynamically.
 
-![Alt text](assets/pic3.jpeg)
+![Alt text](assets/pic3.png)
 
 
 ---
@@ -90,7 +90,7 @@ Instead of hardcoding values, I used Terraform **variables** to make the EC2 set
 ✅ **Instance Type** – Can be adjusted for different workloads.  
 ✅ **Key Pair** – Allows secure SSH access.  
 
-![Alt text](assets/pic4.jpeg)
+![Alt text](assets/pic4.png)
 
 
 ---
@@ -130,12 +130,12 @@ terraform apply -auto-approve
 ```
 Terraform will create the AWS resources.
 
-![Alt text](assets/pic5.jpeg)
+![Alt text](assets/pic5.png)
 
 ## 🌐 Accessing the Web Server
 Once deployed, can access the web server by visiting:
 
-![Alt text](assets/pic6.jpeg)
+![Alt text](assets/pic6.png)
 
 
 ---
