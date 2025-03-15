@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = credentials('hagert') 
-        DOCKER_IMAGE_NAME = "hagert/lab" // Replace with your Docker Hub image name
+        DOCKER_IMAGE_NAME = "hagert/lab" 
         DOCKER_IMAGE_TAG = "latest"
-        KUBE_DEPLOYMENT_FILE = "deployment.yaml" // Path to your Kubernetes deployment file
+        KUBE_DEPLOYMENT_FILE = "deployment.yaml" 
     }
 
     stages {
