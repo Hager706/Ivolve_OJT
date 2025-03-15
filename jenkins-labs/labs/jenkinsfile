@@ -9,7 +9,7 @@ pipeline {
         DOCKER_IMAGE = "app"
         DOCKERHUB_CRED_ID = "hagert"
         K8S_SA_TOKEN_CRED_ID = 'kube' 
-        DEPLOYMENT = 'deployment.yaml'
+        DEPLOYMENT = 'jenkins-labs/labs/deployment.yaml'
         KUBERNETES_API_SERVER = 'https://127.0.0.1:53690'  
     }
 
@@ -23,9 +23,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                  dir('jenkins-labs/labs'){
-                    sh "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER} ."
-                }}
+                    sh "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER} jenkins-labs/labs/."
+                }
             }
         }
 
@@ -49,7 +48,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                  dir('jenkins-labs/labs') {
                     sh "sed -i 's|${DOCKER_REGISTRY}/${DOCKER_IMAGE}:.*|${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}|g' ${DEPLOYMENT}"
 
                     withCredentials([string(credentialsId: "${K8S_SA_TOKEN_CRED_ID}", variable: 'KUBE_TOKEN')]) {
@@ -63,7 +61,7 @@ pipeline {
                     }
                 }
             }
-            }
+            
         }
     }
 
