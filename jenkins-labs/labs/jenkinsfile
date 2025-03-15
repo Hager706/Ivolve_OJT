@@ -2,81 +2,77 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('hagert') 
-        DOCKER_IMAGE_NAME = "hagert/lab" 
-        DOCKER_IMAGE_TAG = "latest"
-        KUBE_DEPLOYMENT_FILE = "deployment.yaml" 
+        GITHUB_CRED_ID = "git"
+        GITHUB_REPO_URL = 'https://github.com/Hager706/Ivolve_OJT.git'
+        GITHUB_REPO_BRANCH = 'main'
+        DOCKER_REGISTRY = "hagert"
+        DOCKER_IMAGE = "app"
+        DOCKERHUB_CRED_ID = "hagert"
+        K8S_SA_TOKEN_CRED_ID = 'kube' 
+        DEPLOYMENT = 'deployment.yaml'
+        KUBERNETES_API_SERVER = 'https://127.0.0.1:53690'  
     }
 
     stages {
-        // Stage 1: Clone the GitHub repository
-        stage('Clone GitHub Repository') {
+        stage('Clone Repository') {
             steps {
-                git url: 'https://github.com/Hager706/Ivolve_OJT/tree/main/jenkins-labs/labs', branch: 'main'
+                git credentialsId: GITHUB_CRED_ID, url: GITHUB_REPO_URL, branch: GITHUB_REPO_BRANCH
             }
         }
 
-        // Stage 2: Build Docker image
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-                }
+                  dir('jenkins-labs/labs'){
+                    sh "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER} ."
+                }}
             }
         }
 
-        // Stage 3: Push Docker image to Docker Hub
-        stage('Push Docker Image') {
+        stage('Push to DockerHub') {
             steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CRED_ID}", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                    sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                }
+            }
+        }
+        
+        stage('Delete image locally') {
+            steps { 
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'hagert', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        sh "echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USER} --password-stdin"
-                        sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-                    }
+                    sh "docker rmi ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
                 }
             }
         }
 
-        // Stage 4: Delete Docker image locally
-        stage('Delete Local Docker Image') {
-            steps {
-                script {
-                    sh "docker rmi ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-                }
-            }
-        }
-
-        // Stage 5: Update Kubernetes deployment with the new image
-        stage('Update Kubernetes Deployment') {
-            steps {
-                script {
-                    sh """
-                        sed -i 's|image: .*|image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}|g' ${KUBE_DEPLOYMENT_FILE}
-                    """
-                }
-            }
-        }
-
-        // Stage 6: Deploy to Kubernetes (Minikube)
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh "kubectl apply -f ${KUBE_DEPLOYMENT_FILE}"
+                  dir('jenkins-labs/labs') {
+                    sh "sed -i 's|${DOCKER_REGISTRY}/${DOCKER_IMAGE}:.*|${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}|g' ${DEPLOYMENT}"
+
+                    withCredentials([string(credentialsId: "${K8S_SA_TOKEN_CRED_ID}", variable: 'KUBE_TOKEN')]) {
+                        sh """
+                        kubectl config set-credentials jenkins-user --token=${KUBE_TOKEN}
+                        kubectl config set-cluster kubernetes --server=${KUBERNETES_API_SERVER} --insecure-skip-tls-verify=true
+                        kubectl config set-context jenkins-context --cluster=kubernetes --user=jenkins-user
+                        kubectl config use-context jenkins-context
+                        kubectl apply -f ${DEPLOYMENT}
+                        """
+                    }
                 }
+            }
             }
         }
     }
 
-    // Post-actions for the pipeline
     post {
-        always {
-            echo 'Pipeline completed. Cleaning up...'
-        }
         success {
-            echo 'Pipeline succeeded!'
+            echo "Deployment successful!"
         }
         failure {
-            echo 'Pipeline failed!'
+            echo "Build or deployment failed."
         }
     }
 }
