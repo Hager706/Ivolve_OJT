@@ -31,8 +31,8 @@ A **StatefulSet** is a Kubernetes controller used to manage **stateful applicati
 ✔ Manages **PersistentVolumeClaims (PVCs)**, ensuring each pod gets **dedicated storage**.  
 ✔ Pods are created and terminated **in a defined sequence** to maintain data consistency.  
 ✔ Best suited for **databases (MySQL, MongoDB) and distributed applications**.
----
 
+---
 ## **MySQL StatefulSet Configuration** 🛢️  
 
 The YAML defines a **MySQL StatefulSet** with **3 replicas**, ensuring **persistent storage and stable pod names**.  
