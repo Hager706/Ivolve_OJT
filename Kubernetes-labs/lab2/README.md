@@ -15,8 +15,7 @@ Since stateful applications require persistent data, Kubernetes provides **State
 
 ## **⚡ What is StatefulSet?**  
 
-A **StatefulSet** is a Kubernetes controller used to manage **stateful applications** like databases. Unlike **Deployment**
-
+A **StatefulSet** is a Kubernetes controller used to manage **stateful applications** like databases or applications that require stable network identities and persistent storage. Unlike Deployments, which are designed for stateless applications
 ---
 
 ## Comparison: Deployment vs. StatefulSet 🔍  
@@ -44,7 +43,7 @@ The YAML defines a **MySQL StatefulSet** with **3 replicas**, ensuring **persist
 
 To expose MySQL within the cluster, a **headless service** (`clusterIP: None`) is required. This allows other applications to discover MySQL pods using **stable DNS names**.  
 
---
+---
 
 ## **Verification** ✅  
 
