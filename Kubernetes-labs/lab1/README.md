@@ -52,17 +52,17 @@ kubectl get pods -w
 ```
 📸![Alt text](assets/pic2.png)
 
-### 6️⃣ Checking Deployment History & Rolling Back to NGINX
+### 6️⃣ Access the Service:
+to ensure that apache is available
+
+📸![Alt text](assets/pic4.png)
+
+### 7️⃣ Checking Deployment History & Rolling Back to NGINX
  **rollout history**, allowing us to track changes & **rollback feature** to revert the deployment to the previous stable version (NGINX)
 ```bash
 kubectl rollout history deployment/nginx-deployment
 ```
 📸![Alt text](assets/pic3.png)
-
-### 7️⃣ Access the Service:
-to ensure that apache is available
-
-📸![Alt text](assets/pic4.png)
 
 ---
 
