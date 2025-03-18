@@ -16,10 +16,10 @@ Since stateful applications require persistent data, Kubernetes provides **State
 ## **⚡ What is StatefulSet?**  
 
 A **StatefulSet** is a Kubernetes controller used to manage **stateful applications** like databases or applications that require stable network identities and persistent storage. Unlike Deployments, which are designed for stateless applications
+
 ---
 
 ## Comparison: Deployment vs. StatefulSet 🔍  
-
 ### **Deployment (For Stateless Applications):**  
 ✔ Does not guarantee **stable pod names**; new pods get randomly assigned names.  
 ✔ Does not provide **built-in persistent storage management**.  
