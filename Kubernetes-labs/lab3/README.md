@@ -1,6 +1,3 @@
-
- 📸![Alt text](assets/pic1.png)
-
 # 📌 Kubernetes Storage Configuration Documentation  
 
 This task outlines the process of creating a **stateful NGINX deployment** in Kubernetes with persistent storage using a **Persistent Volume (PV)** and **Persistent Volume Claim (PVC)**. It demonstrates how data persists across pod restarts and deletions.
@@ -81,7 +78,7 @@ kubectl exec $NEW_POD_NAME -- curl localhost/hello.txt
 
 ## 🔍 Comparison of Storage Components
 
- 📸![Alt text](assets/Storageclass blog (1)-1.webp)
+ 📸![Alt text](assets/pic7.png)
 
 ### 📦 Persistent Volume (PV)  
 ✅ A **PV** is a piece of storage in the cluster that has been provisioned by an administrator or dynamically using **Storage Classes**.  
