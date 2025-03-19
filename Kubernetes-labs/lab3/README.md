@@ -78,7 +78,7 @@ kubectl exec $NEW_POD_NAME -- curl localhost/hello.txt
 
 ## 🔍 Comparison of Storage Components
 
- 📸![Alt text](assets/pic7.png)
+ 📸![Alt text](assets/pic.png)
 
 ### 📦 Persistent Volume (PV)  
 ✅ A **PV** is a piece of storage in the cluster that has been provisioned by an administrator or dynamically using **Storage Classes**.  
