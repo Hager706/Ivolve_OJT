@@ -1,0 +1,9 @@
+# resource-quota.yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: pod-quota
+  namespace: ivolve
+spec:
+  hard:
+    pods: "10"

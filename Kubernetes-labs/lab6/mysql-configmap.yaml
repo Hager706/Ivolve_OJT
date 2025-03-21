@@ -1,0 +1,9 @@
+# mysql-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: ivolve
+data:
+  database: "mydb"
+  user: "myuser"
